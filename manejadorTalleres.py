@@ -47,7 +47,3 @@ class manejadorTalleres(object):
                 band = True
             i += 1
         return band
-
-
-
-
