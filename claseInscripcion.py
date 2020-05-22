@@ -27,6 +27,9 @@ class Inscripcion(object):
     def getFecha(self):
         return self.__fechaInscripcion
 
+    def getPago(self):
+        return self.__pago
+
     def compararDni(self, dni):
         band = False
         if self.__persona.getDNI() == dni:
@@ -51,3 +54,18 @@ class Inscripcion(object):
     def getDatosPersona(self):
         s = '%16s%25s%s' % (self.__persona.getDNI().ljust(16), self.__persona.getNombre().ljust(25), self.__persona.getDireccion())
         return s
+
+    def registrarPago(self):
+        band = False
+        if self.__pago == False:
+            self.__pago = True
+            band = True
+        return band
+
+    def getDniPersona(self):
+        return self.__persona.getDNI()
+
+    def getIdTaller(self):
+        return self.__taller.getId()
+
+   
