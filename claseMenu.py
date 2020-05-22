@@ -17,15 +17,15 @@ class Menu(object):
     __talleres = None
     __personas = None
     __inscripciones = None
-    def __init__(self):
+    def __init__(self, talleres):
         self.__switcher = { 0:self.salir,
                             1:self.opcion1,
                             2:self.opcion2,
                             3:self.opcion3,
                             4:self.opcion4,
-                            5:self.opcion5,
-                            6:self.opcion6
+                            5:self.opcion5
                          }
+        self.__talleres = talleres
         self.__personas = manejadorPersonas()
         self.__inscripciones = manejadorInscripciones()
     def getSwitcher(self):
@@ -35,18 +35,8 @@ class Menu(object):
         func()
     def salir(self):
         print('Chau...')
-    def opcion1(self):
-        archivo = open('Talleres.csv')
-        reader = csv.reader(archivo, delimiter=',')
-        for fila in reader:
-            if len(fila) == 1:
-                self.__talleres = manejadorTalleres(int(fila[0]))
-            else:
-                self.__talleres.cargarTaller(fila)
-        archivo.close()
-        #self.__talleres.mostrarDatos()
 
-    def opcion2(self):
+    def opcion1(self):
         if type(self.__talleres) == manejadorTalleres:
             dni = input('Ingrese el DNI de la persona: ')
             if self.__personas.buscarDNI(dni) == False:
@@ -71,23 +61,29 @@ class Menu(object):
             print('No hay talleres disponibles.')
 
 
-    def opcion3(self):
+    def opcion2(self):
         dni = input('Ingrese el DNI: ')
+        os.system('cls')
         if self.__personas.buscarDNI(dni) == True:
-            os.system('cls')
             print(self.__inscripciones.consultarInscripcion(dni))
         else:
-            os.system('cls')
-            print('La persona no esta inscripta a ningun curso.')
+            print('La persona no esta inscripta a ningun taller.')
 
-    def opcion4(self):
+    def opcion3(self):
         idTaller = int(input('Ingrese el id del taller: '))
+        os.system('cls')
         if self.__talleres.buscaTaller(idTaller) == True:
             print(self.__inscripciones.consultarInscripciones(idTaller))
         else:
             print('El id no corresponde a ningun taller.')
 
+    def opcion4(self):
+        dni = input('Ingrese el DNI: ')
+        os.system('cls')
+        if self.__personas.buscarDNI(dni) == True:
+            self.__inscripciones.registrarPago(dni)
+        else:
+            print('La persona no esta inscripta a ningun taller.')
+
     def opcion5(self):
-        print('Opcion5')
-    def opcion6(self):
-        print('Opcion6')
+        self.__inscripciones.guardarInscripciones()
