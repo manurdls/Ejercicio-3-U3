@@ -4,6 +4,8 @@ from datetime import datetime
 
 import os
 
+import csv
+
 from clasePersona import Persona
 
 from claseTallerCapacitacion import tallerCapacitacion
@@ -30,12 +32,21 @@ if __name__ == '__main__':
     #print(hoy)
     #print(type(hoy))
 
-    menu = Menu()
+
+    archivo = open('Talleres.csv')
+    reader = csv.reader(archivo, delimiter=',')
+    for fila in reader:
+        if len(fila) == 1:
+            talleres = manejadorTalleres(int(fila[0]))
+        else:
+            talleres.cargarTaller(fila)
+    archivo.close()
+
+    menu = Menu(talleres)
     salir = False
     while not salir:
-        print("\n------------Menu------------\n0. Salir 1\n1. Cargar datos de los talleres.\n2. Inscribir una persona a un taller. \n3. Consultar inscripcion. \n4. Consultar inscriptos. \n5. Registrar pago. \n6. Guardar inscripciones.")
+        print("\n------------Menu------------\n0. Salir \n1. Inscribir una persona a un taller. \n2. Consultar inscripcion. \n3. Consultar inscriptos. \n4. Registrar pago. \n5. Guardar inscripciones.")
         op = int(input('Ingrese una opcion: '))
         os.system('cls')
         talleres = menu.opcion(op)
         salir = op == 0
-
